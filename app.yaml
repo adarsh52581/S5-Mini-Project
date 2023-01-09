@@ -1,3 +1,0 @@
-pack build sample-python \
-  --builder gcr.io/buildpacks/builder
-  --env "GOOGLE_ENTRYPOINT='gunicorn --bind :$PORT main:app'"
