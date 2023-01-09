@@ -1,9 +1,13 @@
-FROM python:3.10-slim
-ENV PYTHONUNBUFFERED True
-
-ENV APP_HOME /S5-Mini-Project
-WORKDIR $APP_HOME
-COPY . ./
-
-RUN pip install --no-cache-dir -r requirements.txt
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+# Use Python37
+FROM python:3.7
+# Copy requirements.txt to the docker image and install packages
+COPY requirements.txt /
+RUN pip install -r requirements.txt
+# Set the WORKDIR to be the folder
+COPY . /app
+# Expose port 5000
+EXPOSE 5000
+ENV PORT 5000
+WORKDIR /app
+# Use gunicorn as the entrypoint
+CMD exec gunicorn --bind :$PORT main_v1:app --workers 1 --threads 1 --timeout 60
